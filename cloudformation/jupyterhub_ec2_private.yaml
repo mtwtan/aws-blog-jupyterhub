@@ -205,7 +205,7 @@ Resources:
             /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
     CreationPolicy:
       ResourceSignal:
-        Timeout: PT15M
+        Timeout: PT30M
 
   PublicAlbTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
