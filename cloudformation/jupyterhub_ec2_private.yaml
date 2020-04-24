@@ -203,6 +203,7 @@ Resources:
             aws s3 cp --recursive $s3files .
             bash jupyterhub_glue_setup.sh ${Dns1} ${Dns2} ${AdDomain} ${LdapBindUser} ${LdapBindUserPassword} ${LdapOu} ${S3DownloadLocation}
             /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
+            reboot now
     CreationPolicy:
       ResourceSignal:
         Timeout: PT30M
