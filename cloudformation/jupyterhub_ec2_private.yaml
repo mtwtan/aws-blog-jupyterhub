@@ -288,6 +288,7 @@ Resources:
       ResourceRecords:
       - !GetAtt PublicApplicationLoadBalancer.DNSName
 
+
 Outputs:
   JupyterHub:
     Description: DNS of JupyterHub
@@ -303,4 +304,4 @@ Outputs:
   
   BastionEC2:
     Description: IP address of the Bastion Host EC2 Instance
-    Value: !GetAtt EC2Instance.PublicIp
+    Value: !GetAtt BastionInstance.PublicIp
