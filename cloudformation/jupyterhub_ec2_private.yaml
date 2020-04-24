@@ -202,6 +202,10 @@ Resources:
             cd ${S3DownloadLocation}
             aws s3 cp --recursive $s3files .
             bash jupyterhub_glue_setup.sh ${Dns1} ${Dns2} ${AdDomain} ${LdapBindUser} ${LdapBindUserPassword} ${LdapOu} ${S3DownloadLocation}
+            /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource EC2Instance --region ${AWS::Region}
+    CreationPolicy:
+      ResourceSignal:
+        Timeout: PT15M
 
   PublicAlbTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
