@@ -165,4 +165,3 @@ sudo sh -c "cp $gitclonedir/nginx.conf /etc/nginx/nginx.conf"
 sudo sh -c "cp $gitclonedir/jupyterhub.conf /etc/nginx/conf.d/jupyterhub.conf"
 sudo sh -c 'systemctl enable nginx.service'
 
-sudo reboot now
