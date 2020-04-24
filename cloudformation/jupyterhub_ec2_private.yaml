@@ -107,6 +107,14 @@ Parameters:
     Description: "Local Download location of S3 files"
     Type: String
     Default: '/tmp'
+  DomainName:
+    AllowedPattern: ^(?!http)(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$
+    Description: The main domain name of the JupyterHub site (e.g. example.com).
+    Type: String
+  SubDomainName:
+    AllowedPattern: ^([a-zA-Z0-9])([a-zA-Z0-9_-])*([a-zA-Z0-9])$
+    Description: '[ Optional ] Subdomain name of the JupyterHub site (e.g. jupyterhub to get jupyterhub.example.com). Leave empty to use the default'
+    Type: String
 
 Resources:
 
@@ -269,4 +277,30 @@ Resources:
       LoadBalancerArn: !Ref PublicApplicationLoadBalancer
       Port: 443
       Protocol: HTTPS
+  
+  RecordSet:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneName: !Join ['', [!Ref DomainName, '.']]
+      Name: !Join ['', [!Ref SubDomainName, '.', !Ref DomainName, '.']]
+      Type: CNAME
+      TTL: 300
+      ResourceRecords:
+      - !GetAtt PublicApplicationLoadBalancer.DNSName
 
+Outputs:
+  JupyterHub:
+    Description: DNS of JupyterHub
+    Value: !Join ['', [!Ref SubDomainName, '.', !Ref DomainName, '.']]
+  
+  AlbDNS:
+    Description: DNS of the ALB
+    Value: !GetAtt PublicApplicationLoadBalancer.DNSName
+  
+  JupyterHubEC2:
+    Description: IP address of the JupyterHub EC2 Instance
+    Value: !GetAtt EC2Instance.PrivateIp
+  
+  BastionEC2:
+    Description: IP address of the Bastion Host EC2 Instance
+    Value: !GetAtt EC2Instance.PublicIp
