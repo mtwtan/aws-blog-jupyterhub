@@ -1,0 +1,14 @@
+# Add AWS Managed policies:
+# AmazonEC2RoleforSSM 
+# AWSGlueServiceRole 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": "s3:GetObject",
+            "Resource": "arn:aws:s3:::< bucket where you uploaded the install files >/*"
+        }
+    ]
+}
